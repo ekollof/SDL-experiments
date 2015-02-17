@@ -10,6 +10,7 @@ int main(int argc, char* args[]) {
 
 	if (init(&window)) {
 
+		// TODO(ekollof): Temporary.
 		SDL_Surface *marbles;
 		marbles = SDL_LoadBMP("assets/MARBLES.BMP");
 		if (!marbles) {
@@ -21,7 +22,7 @@ int main(int argc, char* args[]) {
 		while (Running) {
 			uint8_t *keys = scanKeyboard();
 			handleKeys(keys);
-			handleEvents();
+			handleEvents(&window);
 			render(&window, marbles);
 		}
 		cleanup(&window);

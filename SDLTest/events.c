@@ -1,6 +1,6 @@
 #include "common.h"
 
-void handleEvents(void) {
+void handleEvents(Window *window) {
 	SDL_Event event;
 	
 	SDL_PollEvent(&event);
@@ -8,6 +8,9 @@ void handleEvents(void) {
 	{
 	case SDL_QUIT:
 		Running = FALSE;
+		break;
+	case SDL_WINDOWEVENT:
+		handleWindowEvent(&event, window);
 		break;
 	default:
 		break;

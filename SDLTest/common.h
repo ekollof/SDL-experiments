@@ -6,13 +6,14 @@
 
 /* struct for keeping things together */
 
-typedef struct tagSDLinfo {
+typedef struct {
 	SDL_Window *window;
-	SDL_Surface *mainsurface; 
-	unsigned int fullscreen;
-	unsigned int width;
-	unsigned int height;
-	unsigned int bpp;
+	SDL_Surface *mainsurface;
+	SDL_Renderer *renderer;
+	int fullscreen;
+	int width;
+	int height;
+	int bpp;
 } Window;
 
 /* Globals (USE SPARINGLY PLEASE)*/
@@ -27,7 +28,7 @@ extern const int SCREEN_HEIGHT;
 
 
 /* events.c */
-extern void handleEvents(void);
+extern void handleEvents(Window *window);
 
 /* keyboard.c */
 extern Uint8 *scanKeyboard(void);
@@ -43,3 +44,6 @@ extern void cleanup(Window *window);
 
 /* video.c */
 extern int render(Window *window, SDL_Surface *surf);
+
+/* window.c */
+extern int handleWindowEvent(SDL_Event *event, Window *window);

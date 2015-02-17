@@ -2,8 +2,9 @@
 
 int render(Window *window, SDL_Surface *surf) {
 	int success = TRUE;
-
 	SDL_Rect myRect;
+	int len;
+
 	myRect.x = 0;
 	myRect.y = 0;
 	myRect.w = window->width;

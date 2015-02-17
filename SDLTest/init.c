@@ -9,7 +9,7 @@ int init(Window *window) {
 		success = FALSE;
 	} else {
 		//Create window
-		window->window = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+		window->window = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 		if (window->window == NULL) {
 			printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 			success = FALSE;
@@ -17,6 +17,12 @@ int init(Window *window) {
 
 			//Get window surface
 			window->mainsurface = SDL_GetWindowSurface(window->window);
+			window->renderer = SDL_CreateRenderer(window->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+			if (!window->renderer) {
+				printf("Could not get renderer! SDL Error %s\n", SDL_GetError());
+				success = FALSE;
+			}
+
 		}
 	}
 
