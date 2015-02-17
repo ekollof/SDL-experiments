@@ -5,13 +5,13 @@ int init(Window *window) {
 
 	//Initialize SDL
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
-		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
+		fprintf(stderr, "Could not initialize! SDL_Error: %s\n", SDL_GetError());
 		success = FALSE;
 	} else {
 		//Create window
-		window->window = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+		window->window = SDL_CreateWindow("SDL experiments", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 		if (window->window == NULL) {
-			printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
+			log_error("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 			success = FALSE;
 		} else {
 
@@ -19,8 +19,10 @@ int init(Window *window) {
 			window->mainsurface = SDL_GetWindowSurface(window->window);
 			window->renderer = SDL_CreateRenderer(window->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 			if (!window->renderer) {
-				printf("Could not get renderer! SDL Error %s\n", SDL_GetError());
+				log_error("Could not get renderer! SDL Error %s\n", SDL_GetError());
 				success = FALSE;
+			} else {
+				SDL_SetRenderDrawColor(window->renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 			}
 
 		}

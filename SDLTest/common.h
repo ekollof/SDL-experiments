@@ -37,13 +37,15 @@ extern void handleKeys(const Uint8 *keys);
 /* logging.c */
 extern void log_info(char *fmt, ...);
 extern void log_debug(char *fmt, ...);
+extern void log_error(char *fmt, ...);
 
 /* init.c */
 extern int init(Window *window);
 extern void cleanup(Window *window);
 
 /* video.c */
-extern int render(Window *window, SDL_Surface *surf);
+extern int render(Window *window, SDL_Texture *texture);
+extern SDL_Texture *loadTexture(Window *window, SDL_Surface *surf);
 
 /* window.c */
 extern int handleWindowEvent(SDL_Event *event, Window *window);
