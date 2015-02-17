@@ -38,3 +38,12 @@ void cleanup(Window *window) {
 	//Quit SDL subsystems
 	SDL_Quit();
 }
+
+void init_img(void) {
+	int flags = IMG_INIT_PNG;
+	int initflags = IMG_Init(flags);
+
+	if ((initflags & flags) != flags) {
+		log_error("SDL image init failed: %s", IMG_GetError());
+	}
+}

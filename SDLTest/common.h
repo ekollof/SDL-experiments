@@ -1,8 +1,17 @@
 #include <SDL.h>
+#include <SDL_image.h>
 #include <stdio.h>
+#include <assert.h>
 
 #define TRUE 1
 #define FALSE 0
+#define TILE_WIDTH 16
+#define TILE_HEIGHT 16
+#define TILES_HORIZ 16
+
+#define log_error(x, ...) SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, x, __VA_ARGS__);
+#define log_info(x, ...) SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, x, __VA_ARGS__);
+#define log_debug(x, ...) SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, x, __VA_ARGS__);
 
 /* struct for keeping things together */
 
@@ -15,6 +24,13 @@ typedef struct {
 	int height;
 	int bpp;
 } Window;
+
+typedef struct {
+	SDL_Surface *tilemap;
+	SDL_Surface **tiles;
+	int maxX;
+	int maxY;
+} Tilemap;
 
 /* Globals (USE SPARINGLY PLEASE)*/
 extern int Running;
@@ -34,18 +50,18 @@ extern void handleEvents(Window *window);
 extern Uint8 *scanKeyboard(void);
 extern void handleKeys(const Uint8 *keys);
 
-/* logging.c */
-extern void log_info(char *fmt, ...);
-extern void log_debug(char *fmt, ...);
-extern void log_error(char *fmt, ...);
-
 /* init.c */
 extern int init(Window *window);
 extern void cleanup(Window *window);
+extern void init_img(void);
 
 /* video.c */
-extern int render(Window *window, SDL_Texture *texture);
+extern int render(Window *window, SDL_Texture *frame);
 extern SDL_Texture *loadTexture(Window *window, SDL_Surface *surf);
 
 /* window.c */
 extern int handleWindowEvent(SDL_Event *event, Window *window);
+
+/* assets.c */
+extern SDL_Surface *loadTileMap(char *path, Window *window);
+extern SDL_Surface *getTile(SDL_Surface *tilemap, int indexX, int indexY);

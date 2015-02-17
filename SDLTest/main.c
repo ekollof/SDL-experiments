@@ -8,25 +8,24 @@ int main(int argc, char* args[]) {
 	window.width = SCREEN_WIDTH;
 	window.bpp = 32;
 
+
 	if (init(&window)) {
 
-		// TODO(ekollof): Temporary.
-		SDL_Surface *marbles;
-		SDL_Texture *mbTexture;
-		marbles = SDL_LoadBMP("assets/MARBLES.BMP");
-		if (!marbles) {
-			log_error("Could not load bmp.\n");
-			return 0;
-		}
-		mbTexture = loadTexture(&window, marbles);
+		init_img();
 
+		// Game assets
+		SDL_Surface *cavemap = loadTileMap("assets/cave.png", &window);
+		
+		SDL_Surface *tile = getTile(cavemap, 0, 0);
+
+		SDL_Texture *frame = loadTexture(&window, tile);
 
 		Running = TRUE;
 		while (Running) {
 			uint8_t *keys = scanKeyboard();
 			handleKeys(keys);
 			handleEvents(&window);
-			render(&window, mbTexture);
+			render(&window, frame);
 		}
 		cleanup(&window);
 	}	

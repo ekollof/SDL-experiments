@@ -12,18 +12,9 @@ SDL_Texture *loadTexture(Window *window, SDL_Surface *surf) {
 	return texture;
 }
 
-int render(Window *window, SDL_Texture *texture) {
+int render(Window *window, SDL_Texture *frame) {
 	int success = TRUE;
 	SDL_Rect myRect;
-	SDL_RendererFlip flipType = SDL_FLIP_NONE;
-
-	static double angle = 0;
-
-	if (angle < 360) {
-		angle++;
-	} else {
-		angle = 0;
-	}
 
 	myRect.x = 0;
 	myRect.y = 0;
@@ -31,7 +22,7 @@ int render(Window *window, SDL_Texture *texture) {
 	myRect.h = window->height;
 
 	SDL_RenderClear(window->renderer);
-	SDL_RenderCopyEx(window->renderer, texture, NULL, &myRect, angle, NULL, flipType);
+	SDL_RenderCopy(window->renderer, frame, NULL, &myRect);
 	SDL_RenderPresent(window->renderer);
 
 	return success;

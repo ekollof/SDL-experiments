@@ -27,9 +27,6 @@
     <ClCompile Include="keyboard.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="logging.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="init.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -37,6 +34,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="window.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="assets.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
