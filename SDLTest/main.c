@@ -8,6 +8,8 @@ int main(int argc, char* args[]) {
 	window.width = SCREEN_WIDTH;
 	window.bpp = 32;
 	int angle = 0;
+	int pastfps = 0;
+	int past = 0;
 
 	
 
@@ -21,6 +23,8 @@ int main(int argc, char* args[]) {
 		srand((int)time(NULL));
 
 		// Game assets
+		Gamestate game;
+		game.fps = 0;
 		Tilemap cavemap;
 		loadTileMap("assets/cave.png", &window, &cavemap);
 		SDL_Surface *level = genCaveLevel(&window, &cavemap);
@@ -29,11 +33,25 @@ int main(int argc, char* args[]) {
 
 		Running = TRUE;
 		while (Running) {
-			uint8_t *keys = scanKeyboard();
+			int curtime = SDL_GetTicks();
+			uint8_t *keys;
+
+			if (curtime - past >= 16) {
+				past = SDL_GetTicks();
+			}
+
+			if (curtime - pastfps >= 1000) {
+				log_info("%d fps\n", game.fps);
+				game.fps = 0;
+				pastfps = curtime;
+			}
+		
+			keys = scanKeyboard();
 			handleKeys(keys);
 			handleEvents(&window);
 
 			render(&window, frame, angle);
+			game.fps++;
 		}
 		cleanup(&window);
 	}	

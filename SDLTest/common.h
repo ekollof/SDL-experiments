@@ -1,6 +1,6 @@
 #ifndef _COMMON_H
 #define _COMMON_H
-#endif
+
 
 #include <SDL.h>
 #include <SDL_image.h>
@@ -14,6 +14,7 @@
 #define FALSE 0
 #define TILE_WIDTH 16
 #define TILE_HEIGHT 16
+#define FPS_MAX 60
 #define MAXTILES 500 // Arbitrary value.
 #define MAXTILES_X MAXTILES / 2
 #define MAXTILES_Y MAXTILES / 2
@@ -24,7 +25,7 @@
 
 /* struct for keeping things together */
 
-typedef struct {
+typedef struct window {
 	SDL_Window *window;
 	SDL_Surface *mainsurface;
 	SDL_Renderer *renderer;
@@ -34,9 +35,10 @@ typedef struct {
 	int bpp;
 } Window;
 
-typedef struct {
+typedef struct tilemap {
 	SDL_Surface *tilemap;
 	SDL_Surface *tile[MAXTILES_X][MAXTILES_Y];
+	int **map;
 	int maxX;
 	int maxY;
 	int numtiles;
@@ -50,31 +52,4 @@ extern const int SCREEN_WIDTH;
 extern const int SCREEN_HEIGHT;
 
 
-/* main.c */
-
-
-/* events.c */
-extern void handleEvents(Window *window);
-
-/* keyboard.c */
-extern Uint8 *scanKeyboard(void);
-extern void handleKeys(const Uint8 *keys);
-
-/* init.c */
-extern int init(Window *window);
-extern void cleanup(Window *window);
-extern void init_img(void);
-
-/* video.c */
-extern int render(Window *window, SDL_Texture *frame, int angle);
-extern SDL_Texture *loadTexture(Window *window, SDL_Surface *surf);
-
-/* window.c */
-extern int handleWindowEvent(SDL_Event *event, Window *window);
-
-/* assets.c */
-extern void loadTileMap(char *path, Window *window, Tilemap *tilemap);
-extern SDL_Surface *getTile(SDL_Surface *tilemap, int indexX, int indexY);
-
-/* levels.c */
-extern SDL_Surface *genCaveLevel(Window *window, Tilemap *cavemap);
+#endif
