@@ -20,8 +20,10 @@ SDL_Surface *genCaveLevel(Window *window, Tilemap *cavemap) {
 	// Just pick random tiles for now. 
 	for (i = 0; i < columns; i++) {
 		for (j = 0; j < rows; j++) {
-			int tilex = rand() % cavemap->maxX;
-			int tiley = rand() % cavemap->maxY;
+			//int tilex = rand() % cavemap->maxX;
+			//int tiley = rand() % cavemap->maxY;
+			int tilex = 1;
+			int tiley = 1;
 
 			tileRect.x = i * TILE_WIDTH;
 			tileRect.y = j * TILE_HEIGHT;

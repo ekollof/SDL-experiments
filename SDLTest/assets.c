@@ -22,7 +22,7 @@ void loadTileMap(char *path, Window *window, Tilemap *tilemap) {
 		int xx = i % tilemap->maxX;
 		int yy = i / tilemap->maxX;
 		// log_info("X: %d Y: %d\n", xx, yy)
-		tilemap->tile[i % tilemap->maxX][i / tilemap->maxX]= getTile(tilemap->tilemap, i % tilemap->maxX + 1, i / tilemap->maxX + 1);
+		tilemap->tile[xx][yy]= getTile(tilemap->tilemap, xx, yy);
 	}
 }
 
