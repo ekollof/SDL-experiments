@@ -1,16 +1,29 @@
-#include "common.h"
+#include "gamestate.h"
 
-SDL_Surface *loadTileMap(char *path, Window *window) {
+void loadTileMap(char *path, Window *window, Tilemap *tilemap) {
 	SDL_Surface *tmp;
-	SDL_Surface *image;
+	int i, x = 0;
 
 	tmp = IMG_Load(path);
-	image = SDL_ConvertSurface(tmp, window->mainsurface->format, 0);
-	if (!image)
+	tilemap->tilemap = SDL_ConvertSurface(tmp, window->mainsurface->format, 0);
+	if (!tilemap->tilemap) {
 		log_error("Optimization failed: %s\n", SDL_GetError());
+		return;
+	}
 	SDL_FreeSurface(tmp);
 
-	return image;
+	// Fill out tilemap struct
+	tilemap->maxX = tilemap->tilemap->w / TILE_WIDTH - 1;
+	tilemap->maxY = tilemap->tilemap->h / TILE_HEIGHT - 1;
+	tilemap->numtiles = tilemap->maxX * tilemap->maxY;
+
+	log_info("\nTilemap width: %d tiles\nTilemap height: %d tiles\n%d Tiles total.\n", tilemap->maxX, tilemap->maxY, tilemap->numtiles);
+	for (i = 0; i < tilemap->numtiles; i++) {
+		int xx = i % tilemap->maxX;
+		int yy = i / tilemap->maxX;
+		// log_info("X: %d Y: %d\n", xx, yy)
+		tilemap->tile[i % tilemap->maxX][i / tilemap->maxX]= getTile(tilemap->tilemap, i % tilemap->maxX + 1, i / tilemap->maxX + 1);
+	}
 }
 
 SDL_Surface *getTile(SDL_Surface *tilemap, int indexX, int indexY) {
@@ -30,8 +43,6 @@ SDL_Surface *getTile(SDL_Surface *tilemap, int indexX, int indexY) {
 			maxhtiles,
 			maxvtiles);
 	}
-	
-
 
 	tileRect.x = indexX * TILE_WIDTH;
 	tileRect.y = indexY * TILE_HEIGHT;

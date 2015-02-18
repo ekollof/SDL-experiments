@@ -1,4 +1,4 @@
-#include "common.h"
+#include "gamestate.h"
 
 int init(Window *window) {
 	int success = TRUE;

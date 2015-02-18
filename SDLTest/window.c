@@ -1,4 +1,4 @@
-#include "common.h"
+#include "gamestate.h"
 
 int handleWindowEvent(SDL_Event *event, Window *window) {
 

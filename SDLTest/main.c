@@ -1,4 +1,4 @@
-#include "common.h"
+#include "gamestate.h"
 
 int main(int argc, char* args[]) {
 
@@ -7,25 +7,33 @@ int main(int argc, char* args[]) {
 	window.height = SCREEN_HEIGHT;
 	window.width = SCREEN_WIDTH;
 	window.bpp = 32;
+	int angle = 0;
 
+	
 
 	if (init(&window)) {
 
+
+		// SDL_Image (for tilemaps)
 		init_img();
 
-		// Game assets
-		SDL_Surface *cavemap = loadTileMap("assets/cave.png", &window);
-		
-		SDL_Surface *tile = getTile(cavemap, 0, 0);
+		// Seed RNG
+		srand((int)time(NULL));
 
-		SDL_Texture *frame = loadTexture(&window, tile);
+		// Game assets
+		Tilemap cavemap;
+		loadTileMap("assets/cave.png", &window, &cavemap);
+		SDL_Surface *level = genCaveLevel(&window, &cavemap);
+
+		SDL_Texture *frame = loadTexture(&window, level);
 
 		Running = TRUE;
 		while (Running) {
 			uint8_t *keys = scanKeyboard();
 			handleKeys(keys);
 			handleEvents(&window);
-			render(&window, frame);
+
+			render(&window, frame, angle);
 		}
 		cleanup(&window);
 	}	

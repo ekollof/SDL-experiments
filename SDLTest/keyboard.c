@@ -1,4 +1,4 @@
-#include "common.h"
+#include "gamestate.h"
 
 Uint8 *scanKeyboard(void) {
 	const Uint8 *keyboard;

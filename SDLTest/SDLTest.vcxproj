@@ -72,6 +72,7 @@
     <ClCompile Include="globals.c" />
     <ClCompile Include="init.c" />
     <ClCompile Include="keyboard.c" />
+    <ClCompile Include="levels.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="events.c" />
     <ClCompile Include="video.c" />
@@ -79,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
+    <ClInclude Include="gamestate.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
