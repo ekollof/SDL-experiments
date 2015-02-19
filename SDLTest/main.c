@@ -10,7 +10,7 @@ int main(int argc, char* args[]) {
 	int angle = 0;
 	int pastfps = 0;
 	int past = 0;
-
+	int i = 0;
 	
 
 	if (init(&window)) {
@@ -26,8 +26,28 @@ int main(int argc, char* args[]) {
 		Gamestate game;
 		game.fps = 0;
 		Tilemap cavemap;
+		Level cavelevel = { 0 };
 		loadTileMap("assets/cave.png", &window, &cavemap);
-		SDL_Surface *level = genCaveLevel(&window, &cavemap);
+		
+
+		// Generate map.
+		// TODO(emiel): move this somewhere else. Make blimit, dlimit and simsteps configurable
+		cavelevel.levelX = window.width;
+		cavelevel.levelY = window.height;
+
+		initMap(cavelevel.level, cavelevel.levelX / TILE_WIDTH, cavelevel.levelY / TILE_HEIGHT, 0.3f);
+		
+		for (i = 0; i < 5; i++) {
+			int newmap[MAXTILES_X][MAXTILES_Y];
+			growCaves(cavelevel.level, newmap, cavelevel.levelX / TILE_WIDTH, cavelevel.levelY / TILE_HEIGHT, 3, 3);
+			copyMap(cavelevel.level, newmap, cavelevel.levelX / TILE_WIDTH, cavelevel.levelY / TILE_HEIGHT);
+		}
+
+		fixWalls(&cavelevel);
+
+
+
+		SDL_Surface *level = genCaveLevel(&window, &cavemap, &cavelevel);
 
 		SDL_Texture *frame = loadTexture(&window, level);
 
@@ -51,6 +71,7 @@ int main(int argc, char* args[]) {
 			handleEvents(&window);
 
 			render(&window, frame, angle);
+	
 			game.fps++;
 		}
 		cleanup(&window);

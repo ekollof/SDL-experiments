@@ -44,6 +44,14 @@ typedef struct tilemap {
 	int numtiles;
 } Tilemap;
 
+typedef struct level {
+	int level[MAXTILES_X][MAXTILES_Y];
+	char *levelname;
+	int levelX;
+	int levelY;
+	size_t size;
+} Level;
+
 /* Globals (USE SPARINGLY PLEASE)*/
 extern int Running;
 

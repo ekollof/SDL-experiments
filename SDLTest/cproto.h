@@ -29,7 +29,12 @@ extern void loadTileMap(char *path, Window *window, Tilemap *tilemap);
 extern SDL_Surface *getTile(SDL_Surface *tilemap, int indexX, int indexY);
 
 /* levels.c */
-extern SDL_Surface *genCaveLevel(Window *window, Tilemap *cavemap);
-extern int generateCaveMap(int **map, int width, int height);
+extern SDL_Surface *genCaveLevel(Window *window, Tilemap *tilemap, Level *leveldata);
+extern void initMap(int map[][MAXTILES_X], int xx, int yy, float chance);
+extern void copyMap(int map[][MAXTILES_X], int newmap[][MAXTILES_X], int columns, int rows);
+extern void growCaves(int map[][MAXTILES_X], int newmap[][MAXTILES_X], int xx, int yy, int blimit, int dlimit);
+extern void growCaves2(int map[][MAXTILES_X], int xx, int yy, int blimit, int dlimit);
+extern int checkNeighbor(int map[][MAXTILES_X], int x, int y, int nrows, int ncolumns);
+extern void fixWalls(Level *level);
 
 #endif
