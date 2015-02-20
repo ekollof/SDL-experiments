@@ -36,5 +36,6 @@ extern void growCaves(int map[][MAXTILES_X], int newmap[][MAXTILES_X], int xx, i
 extern void growCaves2(int map[][MAXTILES_X], int xx, int yy, int blimit, int dlimit);
 extern int checkNeighbor(int map[][MAXTILES_X], int x, int y, int nrows, int ncolumns);
 extern void fixWalls(Level *level);
+extern char *findTileType(Level *level, int x, int y, int xx, int yy);
 
 #endif

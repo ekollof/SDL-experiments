@@ -164,4 +164,53 @@ void fixWalls(Level *level) {
 	int xtiles = level->levelX / TILE_WIDTH;
 	int ytiles = level->levelY / TILE_HEIGHT;
 
+	char *neighbors;
+
+	for (x = 0; x < xtiles; x++) {
+		for (y = 0; y < ytiles; y++) {
+			neighbors = findTileType(level, x, y, xtiles, ytiles);
+			log_debug("Map: %s", neighbors);
+			SDL_free(neighbors);
+		}
+	}
+
+}
+
+char *findTileType(Level *level, int x, int y, int xx, int yy) {
+	int i, j = 0;
+	int n[8] = { 0 };
+	int occupied = 0;
+	char *ret;
+	
+	ret = SDL_malloc(9);
+
+	/*
+	Order of processing.
+	1 4 6
+	2   7
+	3 5 8
+	*/
+
+	for (i = -1; i < 2; i++) {
+		for (j = -1; j < 2; j++) {
+			int neigh_x = x + i;
+			int neigh_y = y + j;
+
+			if (i == 0 && j == 0) {
+				// Us. Next.
+			} else if (neigh_x < 0 || neigh_y < 0 || neigh_x >= xx || neigh_y >= yy) {
+					log_info("At level edge\n");
+					n[occupied] = 1;
+				} else
+					log_info("Checking %d %d\n", neigh_x, neigh_y)
+					if (level->level[neigh_x][neigh_y]) {
+						n[occupied] = 1;
+					} else {
+						n[occupied] = 0;
+					}
+				occupied++;
+		}
+	}
+	sprintf_s(ret, 9, "%d%d%d%d%d%d%d%d", n[0], n[1], n[2], n[3], n[4], n[5], n[6], n[7]);
+	return ret;
 }
