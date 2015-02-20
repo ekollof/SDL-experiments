@@ -23,14 +23,39 @@ SDL_Surface *genCaveLevel(Window *window, Tilemap *tilemap, Level *leveldata) {
 			int tilex = 0;
 			int tiley = 0;
 
+			log_info("Leveldata: %d", leveldata->level[i][j]);
 			switch (leveldata->level[i][j]) {
 			case TILE_OPEN:
 				tilex = 1;
 				tiley = 1;
 				break;
 			case TILE_CLOSE:
-				tilex = 8;
+				tilex = 2;
+				tiley = 3;
+				break;
+			case TILE_LVERT:
+				tilex = 0;
+				tiley = 1;
+				break;
+			case TILE_RVERT:
+				tilex = 2;
+				tiley = 1;
+				break;
+			case TILE_UHORZ:
 				tilex = 1;
+				tiley = 2;
+				break;
+			case TILE_DHORZ:
+				tilex = 1;
+				tiley = 0;
+				break;
+			case TILE_TLCORN:
+				tilex = 2;
+				tiley = 2;
+				break;
+			case TILE_TRCORN:
+				tilex = 0;
+				tiley = 2;
 				break;
 			default:
 				tilex = 1;
@@ -171,56 +196,98 @@ void fixWalls(Level *level) {
 	int x, y = 0;
 	int xtiles = level->levelX / TILE_WIDTH;
 	int ytiles = level->levelY / TILE_HEIGHT;
+	int tmplevel[MAXTILES_X][MAXTILES_Y];
 
 	char *neighbors;
+	copyMap(tmplevel, level->level, xtiles, ytiles);
 
 	for (x = 0; x < xtiles; x++) {
 		for (y = 0; y < ytiles; y++) {
-			neighbors = findTileType(level, x, y, xtiles, ytiles);
-			log_info("Map: %dx%d %s", x, y, neighbors);
-			//level->level[x][y] = getTileType(neighbors);
+			neighbors = findTileType(&tmplevel, x, y, xtiles, ytiles);
+			level->level[x][y] = getTileType(neighbors, tmplevel[x][y]);
+			log_info("Map: %dx%d %s -> %d", x, y, neighbors, level->level[x][y]);
 			SDL_free(neighbors);
 		}
 	}
 }
 
-int getTileType(char *pattern) {
-	if (!strcmp(pattern, "00000000")) {
+int getTileType(char *pattern, int value) {
+	if (!strcmp(pattern, "000000000")) {
 		// completely open
 		// 
 		// . . .
 		// . . .
 		// . . .
+		log_info("Open space");
 		return TILE_OPEN;
 	}
-	if (!strcmp(pattern, "11111111")) {
+	if (!strcmp(pattern, "111111111")) {
 		// Fully surrounded
 		//
-		// 1 4 6
-		// 2   7
-		// 3 5 8
+		// 1 4 7
+		// 2 5 8
+		// 3 6 9
+		log_info("Closed space");
 		return TILE_CLOSE;
 	}
-	if (!strcmp(pattern, "11100000")) {
+	if (!strcmp(pattern, "111000000")) {
 		// Left vertical wall
 		//
 		// 1 . .
 		// 2 . .
 		// 3 . .
+		log_info("Left vertical wall");
 		return TILE_LVERT;
 	}
-	if (!strcmp(pattern, "00000111")) {
+	if (!strcmp(pattern, "000000111")) {
 		// Right vertical wall
 		//
-		// . . 6
 		// . . 7
 		// . . 8
+		// . . 9
+		log_info("Right vertical wall");
 		return TILE_RVERT;
+	}
+	if (!strcmp(pattern, "100100100")) {
+		// Up horizontal wall
+		//
+		// 1 4 7
+		// . . .
+		// . . .
+		log_info("Up horizontal wall");
+		return TILE_DHORZ;
+	}
+	if (!strcmp(pattern, "001001001")) {
+		// Up horizontal wall
+		//
+		// . . .
+		// . . .
+		// 3 6 9
+		log_info("Down horizontal wall");
+		return TILE_UHORZ;
+	}
+	if (!strcmp(pattern, "000011011")) {
+		// Top left corner
+		//
+		// . . .
+		// . 6 8
+		// . 7 9
+		log_info("Top left corner");
+		return TILE_TLCORN;
+	}
+	if (!strcmp(pattern, "011001100")) {
+		// Top right corner
+		//
+		// . . .
+		// 2 6 .
+		// 3 7 .
+		log_info("Top right corner");
+		return TILE_TRCORN;
 	}
 
 
-
-	return 0;
+	log_info("Original value.");
+	return value;
 }
 
 char *findTileType(Level *level, int x, int y, int xx, int yy) {
@@ -228,14 +295,14 @@ char *findTileType(Level *level, int x, int y, int xx, int yy) {
 	int occupied = 0;
 	char *ret;
 	
-	ret = SDL_malloc(9);
-	SDL_memset(ret, 0, 9);
+	ret = SDL_malloc(10);
+	SDL_memset(ret, 0, 10);
 
 	/*
 	Order of processing.
-	1 4 6
-	2   7
-	3 5 8
+	1 4 7
+	2 5 8
+	3 6 9
 	*/
 
 	for (i = -1; i < 2; i++) {
@@ -243,10 +310,7 @@ char *findTileType(Level *level, int x, int y, int xx, int yy) {
 			int neigh_x = x + i;
 			int neigh_y = y + j;
 
-			if (i == 0 && j == 0) {
-				// Us. Next.
-				continue;
-			} else if (neigh_x < 0 || neigh_y < 0 || neigh_x >= xx || neigh_y >= yy) {
+			if (neigh_x < 0 || neigh_y < 0 || neigh_x >= xx || neigh_y >= yy) {
 					log_info("At level edge\n");
 					ret[occupied] = '1';
 			} else {
@@ -260,6 +324,6 @@ char *findTileType(Level *level, int x, int y, int xx, int yy) {
 			occupied++;
 		}
 	}
-	ret[9] = '\0';
+	ret[10] = '\0';
 	return ret;
 }
