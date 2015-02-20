@@ -23,13 +23,21 @@ SDL_Surface *genCaveLevel(Window *window, Tilemap *tilemap, Level *leveldata) {
 			int tilex = 0;
 			int tiley = 0;
 
-			if (leveldata->level[i][j]) {
-				tilex = 8;
-				tiley = 0;
-			} else {
+			switch (leveldata->level[i][j]) {
+			case TILE_OPEN:
 				tilex = 1;
 				tiley = 1;
+				break;
+			case TILE_CLOSE:
+				tilex = 8;
+				tilex = 1;
+				break;
+			default:
+				tilex = 1;
+				tiley = 1;
+				break;
 			}
+
 
 			tileRect.x = i * TILE_WIDTH;
 			tileRect.y = j * TILE_HEIGHT;
@@ -169,11 +177,50 @@ void fixWalls(Level *level) {
 	for (x = 0; x < xtiles; x++) {
 		for (y = 0; y < ytiles; y++) {
 			neighbors = findTileType(level, x, y, xtiles, ytiles);
-			log_info("Map: %s", neighbors);
+			log_info("Map: %dx%d %s", x, y, neighbors);
+			//level->level[x][y] = getTileType(neighbors);
 			SDL_free(neighbors);
 		}
 	}
+}
 
+int getTileType(char *pattern) {
+	if (!strcmp(pattern, "00000000")) {
+		// completely open
+		// 
+		// . . .
+		// . . .
+		// . . .
+		return TILE_OPEN;
+	}
+	if (!strcmp(pattern, "11111111")) {
+		// Fully surrounded
+		//
+		// 1 4 6
+		// 2   7
+		// 3 5 8
+		return TILE_CLOSE;
+	}
+	if (!strcmp(pattern, "11100000")) {
+		// Left vertical wall
+		//
+		// 1 . .
+		// 2 . .
+		// 3 . .
+		return TILE_LVERT;
+	}
+	if (!strcmp(pattern, "00000111")) {
+		// Right vertical wall
+		//
+		// . . 6
+		// . . 7
+		// . . 8
+		return TILE_RVERT;
+	}
+
+
+
+	return 0;
 }
 
 char *findTileType(Level *level, int x, int y, int xx, int yy) {
@@ -181,7 +228,8 @@ char *findTileType(Level *level, int x, int y, int xx, int yy) {
 	int occupied = 0;
 	char *ret;
 	
-	ret = SDL_calloc(1, 9);
+	ret = SDL_malloc(9);
+	SDL_memset(ret, 0, 9);
 
 	/*
 	Order of processing.
@@ -197,17 +245,19 @@ char *findTileType(Level *level, int x, int y, int xx, int yy) {
 
 			if (i == 0 && j == 0) {
 				// Us. Next.
+				continue;
 			} else if (neigh_x < 0 || neigh_y < 0 || neigh_x >= xx || neigh_y >= yy) {
 					log_info("At level edge\n");
 					ret[occupied] = '1';
-				} else
-					log_info("Checking %d %d\n", neigh_x, neigh_y)
-					if (level->level[neigh_x][neigh_y]) {
-						ret[occupied] = '1';
-					} else {
-						ret[occupied] = '0';
-					}
-				occupied++;
+			} else {
+				// log_info("Checking %d %d\n", neigh_x, neigh_y)
+				if (level->level[neigh_x][neigh_y]) {
+					ret[occupied] = '1';
+				} else {
+					ret[occupied] = '0';
+				}
+			}
+			occupied++;
 		}
 	}
 	ret[9] = '\0';
