@@ -8,8 +8,8 @@ int main(int argc, char* args[]) {
 	window.height = SCREEN_HEIGHT;
 	window.width = SCREEN_WIDTH;
 	window.bpp = 32;
-	window.camera.h = 256;
-	window.camera.w = 256;
+	window.camera.h = 128;
+	window.camera.w = 128;
 	window.camera.x = 0;
 	window.camera.y = 0;
 
@@ -61,7 +61,6 @@ int main(int argc, char* args[]) {
 
 		Running = TRUE;
 		while (Running) {
-			int direction = 0;
 			int curtime = SDL_GetTicks();
 			uint8_t *keys;
 

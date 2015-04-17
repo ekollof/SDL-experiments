@@ -45,7 +45,7 @@ void cameraDirection(Window *window, int direction, int speed) {
 	}
 
 
-	log_info("Direction: %d", direction);
+	// log_info("Direction: %d", direction);
 
 	if (window->camera.x + window->camera.w > SCREEN_WIDTH) {
 		window->camera.x = SCREEN_WIDTH - window->camera.w;
@@ -68,5 +68,5 @@ void cameraDirection(Window *window, int direction, int speed) {
 	}
 
 
-	log_info("Camera @ x: %d y: %d\n", window->camera.x, window->camera.y);
+	// log_info("Camera @ x: %d y: %d\n", window->camera.x, window->camera.y);
 }

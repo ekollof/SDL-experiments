@@ -230,38 +230,38 @@ int getTileType(char *pattern, int value) {
 		log_info("Closed space", NULL);
 		return TILE_CLOSE;
 	}
-	if (!strcmp(pattern, "111000000")) {
+	if (!strcmp(pattern, "111111000")) {
 		// Left vertical wall
 		//
-		// 1 . .
-		// 2 . .
-		// 3 . .
+		// 1 4 .
+		// 2 5 .
+		// 3 6 .
 		log_info("Left vertical wall", NULL);
 		return TILE_LVERT;
 	}
-	if (!strcmp(pattern, "000000111")) {
+	if (!strcmp(pattern, "000111111")) {
 		// Right vertical wall
 		//
-		// . . 7
-		// . . 8
-		// . . 9
+		// . 4 7
+		// . 5 8
+		// . 6 9
 		log_info("Right vertical wall", NULL);
 		return TILE_RVERT;
 	}
-	if (!strcmp(pattern, "100100100")) {
+	if (!strcmp(pattern, "110110110")) {
 		// Up horizontal wall
 		//
 		// 1 4 7
-		// . . .
+		// 2 5 8
 		// . . .
 		log_info("Up horizontal wall", NULL);
 		return TILE_DHORZ;
 	}
-	if (!strcmp(pattern, "001001001")) {
+	if (!strcmp(pattern, "011011011")) {
 		// Up horizontal wall
 		//
 		// . . .
-		// . . .
+		// 2 5 8
 		// 3 6 9
 		log_info("Down horizontal wall", NULL);
 		return TILE_UHORZ;

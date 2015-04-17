@@ -8,6 +8,7 @@ void handleEvents(Window *window) {
 	{
 	case SDL_QUIT:
 		Running = FALSE;
+		cleanup(window);
 		break;
 	case SDL_WINDOWEVENT:
 		handleWindowEvent(&event, window);
