@@ -49,6 +49,16 @@ typedef struct gamestate {
 #define TILE_BLCORN 8
 #define TILE_BRCORN 9
 
+#define DIR_NONE 0
+#define DIR_DLEFT 1
+#define DIR_DOWN 2
+#define DIR_DRIGHT 3
+#define DIR_LEFT 4
+#define DIR_RIGHT 6
+#define DIR_ULEFT 7
+#define DIR_UP 8
+#define DIR_URIGHT 9
 
+#define MAX_SPEED 5
 
 #endif

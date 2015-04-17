@@ -10,7 +10,7 @@ void cleanup(Window *window);
 void init_img(void);
 /* keyboard.c */
 Uint8 *scanKeyboard(void);
-void handleKeys(Uint8 *keys);
+void handleKeys(Uint8 *keys, Window *window);
 /* levels.c */
 SDL_Surface *genCaveLevel(Window *window, Tilemap *tilemap, Level *leveldata);
 void initMap(int map[][500 / 2], int xx, int yy, float chance);
@@ -25,6 +25,6 @@ char *findTileType(Level *level, int x, int y, int xx, int yy);
 int main(int argc, char *args[]);
 /* video.c */
 SDL_Texture *loadTexture(Window *window, SDL_Surface *surf);
-int render(Window *window, SDL_Texture *frame, int angle);
+int render(Window *window, SDL_Texture *frame, SDL_Rect *camera, int angle);
 /* window.c */
 int handleWindowEvent(SDL_Event *event, Window *window);

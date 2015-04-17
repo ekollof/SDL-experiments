@@ -3,10 +3,16 @@
 int main(int argc, char* args[]) {
 
 	// Main game loop
+
 	Window window;
 	window.height = SCREEN_HEIGHT;
 	window.width = SCREEN_WIDTH;
 	window.bpp = 32;
+	window.camera.h = 256;
+	window.camera.w = 256;
+	window.camera.x = 0;
+	window.camera.y = 0;
+
 	int angle = 0;
 	int pastfps = 0;
 	int past = 0;
@@ -27,6 +33,7 @@ int main(int argc, char* args[]) {
 		game.fps = 0;
 		Tilemap cavemap;
 		Level cavelevel;
+
 		loadTileMap("assets/cave.png", &window, &cavemap);
 		
 
@@ -51,8 +58,10 @@ int main(int argc, char* args[]) {
 
 		SDL_Texture *frame = loadTexture(&window, level);
 
+
 		Running = TRUE;
 		while (Running) {
+			int direction = 0;
 			int curtime = SDL_GetTicks();
 			uint8_t *keys;
 
@@ -67,11 +76,12 @@ int main(int argc, char* args[]) {
 			}
 		
 			keys = scanKeyboard();
-			handleKeys(keys);
+			handleKeys(keys, &window);
 			handleEvents(&window);
 
-			render(&window, frame, angle);
-	
+			render(&window, frame, &window.camera, angle);
+			
+
 			game.fps++;
 		}
 		cleanup(&window);

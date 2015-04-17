@@ -19,6 +19,7 @@
 #define MAXTILES_X MAXTILES / 2
 #define MAXTILES_Y MAXTILES / 2
 
+
 #define log_error(x, ...) SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, x, __VA_ARGS__)
 #define log_info(x, ...) SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, x, __VA_ARGS__)
 #define log_debug(x, ...) SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, x, __VA_ARGS__)
@@ -29,6 +30,7 @@ typedef struct window {
 	SDL_Window *window;
 	SDL_Surface *mainsurface;
 	SDL_Renderer *renderer;
+	SDL_Rect	camera;
 	int fullscreen;
 	int width;
 	int height;
@@ -52,12 +54,12 @@ typedef struct level {
 	size_t size;
 } Level;
 
-typedef struct viewport {
-	int vw; // Viewport width
-	int vh; // Viewport height
-	int x; // Viewport origin x
-	int y; // Viewport origin y
-} Viewport;
+typedef struct camera {
+	int w; // Camera width
+	int h; // Camera height
+	int x; // Camera origin x
+	int y; // Camera origin y
+} Camera;
 
 /* Globals (USE SPARINGLY PLEASE)*/
 extern int Running;

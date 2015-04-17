@@ -10,15 +10,6 @@ void loadTileMap(char *path, Window *window, Tilemap *tilemap) {
 	  return;
 	}
 
-#if 0
-	tilemap->tilemap = SDL_ConvertSurface(tmp, window->mainsurface->format, 0);
-	if (!tilemap->tilemap) {
-		log_error("Optimization failed: %s\n", SDL_GetError());
-		return;
-	}
-	SDL_FreeSurface(tmp);
-#endif
-	
 	// Fill out tilemap struct
 	tilemap->maxX = tilemap->tilemap->w / TILE_WIDTH - 1;
 	tilemap->maxY = tilemap->tilemap->h / TILE_HEIGHT - 1;
