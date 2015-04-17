@@ -19,9 +19,9 @@
 #define MAXTILES_X MAXTILES / 2
 #define MAXTILES_Y MAXTILES / 2
 
-#define log_error(x, ...) SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, x, __VA_ARGS__);
-#define log_info(x, ...) SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, x, __VA_ARGS__);
-#define log_debug(x, ...) SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, x, __VA_ARGS__);
+#define log_error(x, ...) SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, x, __VA_ARGS__)
+#define log_info(x, ...) SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, x, __VA_ARGS__)
+#define log_debug(x, ...) SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_DEBUG, x, __VA_ARGS__)
 
 /* struct for keeping things together */
 
@@ -51,6 +51,13 @@ typedef struct level {
 	int levelY;
 	size_t size;
 } Level;
+
+typedef struct viewport {
+	int vw; // Viewport width
+	int vh; // Viewport height
+	int x; // Viewport origin x
+	int y; // Viewport origin y
+} Viewport;
 
 /* Globals (USE SPARINGLY PLEASE)*/
 extern int Running;

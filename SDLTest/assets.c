@@ -1,17 +1,24 @@
 #include "gamestate.h"
 
 void loadTileMap(char *path, Window *window, Tilemap *tilemap) {
-	SDL_Surface *tmp;
-	int i, x = 0;
+	int i;
 
-	tmp = IMG_Load(path);
+	tilemap->tilemap = IMG_Load(path);
+	
+	if (!tilemap->tilemap) {
+	  log_error("Could not load image %s!\n", path);
+	  return;
+	}
+
+#if 0
 	tilemap->tilemap = SDL_ConvertSurface(tmp, window->mainsurface->format, 0);
 	if (!tilemap->tilemap) {
 		log_error("Optimization failed: %s\n", SDL_GetError());
 		return;
 	}
 	SDL_FreeSurface(tmp);
-
+#endif
+	
 	// Fill out tilemap struct
 	tilemap->maxX = tilemap->tilemap->w / TILE_WIDTH - 1;
 	tilemap->maxY = tilemap->tilemap->h / TILE_HEIGHT - 1;

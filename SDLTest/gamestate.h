@@ -19,7 +19,7 @@ typedef struct projectile {
 	int movetoX;
 	int movetoY;
 	int damage;
-};
+} Projectile;
 
 typedef struct gamestate {
 	int running;

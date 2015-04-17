@@ -26,7 +26,7 @@ int main(int argc, char* args[]) {
 		Gamestate game;
 		game.fps = 0;
 		Tilemap cavemap;
-		Level cavelevel = { 0 };
+		Level cavelevel;
 		loadTileMap("assets/cave.png", &window, &cavemap);
 		
 

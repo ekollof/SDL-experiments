@@ -1,42 +1,30 @@
-#ifndef _CPROTO_H
-#define _CPROTO_H
-
-
-/* main.c */
-
-
-/* events.c */
-extern void handleEvents(Window *window);
-
-/* keyboard.c */
-extern Uint8 *scanKeyboard(void);
-extern void handleKeys(const Uint8 *keys);
-
-/* init.c */
-extern int init(Window *window);
-extern void cleanup(Window *window);
-extern void init_img(void);
-
-/* video.c */
-extern int render(Window *window, SDL_Texture *frame, int angle);
-extern SDL_Texture *loadTexture(Window *window, SDL_Surface *surf);
-
-/* window.c */
-extern int handleWindowEvent(SDL_Event *event, Window *window);
-
 /* assets.c */
-extern void loadTileMap(char *path, Window *window, Tilemap *tilemap);
-extern SDL_Surface *getTile(SDL_Surface *tilemap, int indexX, int indexY);
-
+void loadTileMap(char *path, Window *window, Tilemap *tilemap);
+SDL_Surface *getTile(SDL_Surface *tilemap, int indexX, int indexY);
+/* events.c */
+void handleEvents(Window *window);
+/* globals.c */
+/* init.c */
+int init(Window *window);
+void cleanup(Window *window);
+void init_img(void);
+/* keyboard.c */
+Uint8 *scanKeyboard(void);
+void handleKeys(Uint8 *keys);
 /* levels.c */
-extern SDL_Surface *genCaveLevel(Window *window, Tilemap *tilemap, Level *leveldata);
-extern void initMap(int map[][MAXTILES_X], int xx, int yy, float chance);
-extern void copyMap(int map[][MAXTILES_X], int newmap[][MAXTILES_X], int columns, int rows);
-extern void growCaves(int map[][MAXTILES_X], int newmap[][MAXTILES_X], int xx, int yy, int blimit, int dlimit);
-extern void growCaves2(int map[][MAXTILES_X], int xx, int yy, int blimit, int dlimit);
-extern int checkNeighbor(int map[][MAXTILES_X], int x, int y, int nrows, int ncolumns);
-extern void fixWalls(Level *level);
-extern int getTileType(char *pattern, int value);
-extern char *findTileType(Level *level, int x, int y, int xx, int yy);
-
-#endif
+SDL_Surface *genCaveLevel(Window *window, Tilemap *tilemap, Level *leveldata);
+void initMap(int map[][500 / 2], int xx, int yy, float chance);
+void copyMap(int map[][500 / 2], int newmap[][500 / 2], int columns, int rows);
+void growCaves2(int map[][500 / 2], int xx, int yy, int blimit, int dlimit);
+void growCaves(int map[][500 / 2], int newmap[][500 / 2], int xx, int yy, int blimit, int dlimit);
+int checkNeighbor(int map[][500 / 2], int x, int y, int yy, int xx);
+void fixWalls(Level *level);
+int getTileType(char *pattern, int value);
+char *findTileType(Level *level, int x, int y, int xx, int yy);
+/* main.c */
+int main(int argc, char *args[]);
+/* video.c */
+SDL_Texture *loadTexture(Window *window, SDL_Surface *surf);
+int render(Window *window, SDL_Texture *frame, int angle);
+/* window.c */
+int handleWindowEvent(SDL_Event *event, Window *window);

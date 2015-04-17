@@ -5,10 +5,10 @@ SDL_Surface *genCaveLevel(Window *window, Tilemap *tilemap, Level *leveldata) {
 	// TODO(ekollof): Just use window size for now. Use bigger surfaces later.
 	
 	int i,j = 0;
-	int levelsize = window->width * window->height;
+	// int levelsize = window->width * window->height;
 	int levelx = window->width;
 	int levely = window->height;
-	int windowtiles = levelsize / TILE_WIDTH;
+	// int windowtiles = levelsize / TILE_WIDTH;
 	int columns = window->width / TILE_WIDTH;
 	int rows = window->height / TILE_HEIGHT;
 	SDL_Rect tileRect;
@@ -82,7 +82,7 @@ void initMap(int map[][MAXTILES_X], int xx, int yy, float chance) {
 	int i, j = 0;
 	float alivechance = chance;
 
-	log_info("%d %d", xx, yy)
+	log_info("%d %d", xx, yy);
 
 	for (i = 0; i < xx; i++) {
 		for (j = 0; j < yy; j++) {
@@ -196,15 +196,15 @@ void fixWalls(Level *level) {
 	int x, y = 0;
 	int xtiles = level->levelX / TILE_WIDTH;
 	int ytiles = level->levelY / TILE_HEIGHT;
-	int tmplevel[MAXTILES_X][MAXTILES_Y];
+	Level tmplevel;
 
 	char *neighbors;
-	copyMap(tmplevel, level->level, xtiles, ytiles);
+	copyMap(tmplevel.level, level->level, xtiles, ytiles);
 
 	for (x = 0; x < xtiles; x++) {
 		for (y = 0; y < ytiles; y++) {
 			neighbors = findTileType(&tmplevel, x, y, xtiles, ytiles);
-			level->level[x][y] = getTileType(neighbors, tmplevel[x][y]);
+			level->level[x][y] = getTileType(neighbors, tmplevel.level[x][y]);
 			log_info("Map: %dx%d %s -> %d", x, y, neighbors, level->level[x][y]);
 			SDL_free(neighbors);
 		}
@@ -218,7 +218,7 @@ int getTileType(char *pattern, int value) {
 		// . . .
 		// . . .
 		// . . .
-		log_info("Open space");
+		log_info("Open space", NULL);
 		return TILE_OPEN;
 	}
 	if (!strcmp(pattern, "111111111")) {
@@ -227,7 +227,7 @@ int getTileType(char *pattern, int value) {
 		// 1 4 7
 		// 2 5 8
 		// 3 6 9
-		log_info("Closed space");
+		log_info("Closed space", NULL);
 		return TILE_CLOSE;
 	}
 	if (!strcmp(pattern, "111000000")) {
@@ -236,7 +236,7 @@ int getTileType(char *pattern, int value) {
 		// 1 . .
 		// 2 . .
 		// 3 . .
-		log_info("Left vertical wall");
+		log_info("Left vertical wall", NULL);
 		return TILE_LVERT;
 	}
 	if (!strcmp(pattern, "000000111")) {
@@ -245,7 +245,7 @@ int getTileType(char *pattern, int value) {
 		// . . 7
 		// . . 8
 		// . . 9
-		log_info("Right vertical wall");
+		log_info("Right vertical wall", NULL);
 		return TILE_RVERT;
 	}
 	if (!strcmp(pattern, "100100100")) {
@@ -254,7 +254,7 @@ int getTileType(char *pattern, int value) {
 		// 1 4 7
 		// . . .
 		// . . .
-		log_info("Up horizontal wall");
+		log_info("Up horizontal wall", NULL);
 		return TILE_DHORZ;
 	}
 	if (!strcmp(pattern, "001001001")) {
@@ -263,7 +263,7 @@ int getTileType(char *pattern, int value) {
 		// . . .
 		// . . .
 		// 3 6 9
-		log_info("Down horizontal wall");
+		log_info("Down horizontal wall", NULL);
 		return TILE_UHORZ;
 	}
 	if (!strcmp(pattern, "000011011")) {
@@ -272,7 +272,7 @@ int getTileType(char *pattern, int value) {
 		// . . .
 		// . 6 8
 		// . 7 9
-		log_info("Top left corner");
+		log_info("Top left corner", NULL);
 		return TILE_TLCORN;
 	}
 	if (!strcmp(pattern, "011001100")) {
@@ -281,12 +281,12 @@ int getTileType(char *pattern, int value) {
 		// . . .
 		// 2 6 .
 		// 3 7 .
-		log_info("Top right corner");
+		log_info("Top right corner", NULL);
 		return TILE_TRCORN;
 	}
 
 
-	log_info("Original value.");
+	log_info("Original value.", NULL);
 	return value;
 }
 
@@ -311,7 +311,7 @@ char *findTileType(Level *level, int x, int y, int xx, int yy) {
 			int neigh_y = y + j;
 
 			if (neigh_x < 0 || neigh_y < 0 || neigh_x >= xx || neigh_y >= yy) {
-					log_info("At level edge\n");
+					log_info("At level edge\n", NULL);
 					ret[occupied] = '1';
 			} else {
 				// log_info("Checking %d %d\n", neigh_x, neigh_y)

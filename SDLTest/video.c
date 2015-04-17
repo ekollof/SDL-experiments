@@ -6,7 +6,7 @@ SDL_Texture *loadTexture(Window *window, SDL_Surface *surf) {
 
 	texture = SDL_CreateTextureFromSurface(window->renderer, surf);
 	if (!texture) {
-		log_error("No texture? :(");
+		log_error("No texture? :(", NULL);
 	}
 
 	return texture;
