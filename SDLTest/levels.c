@@ -14,7 +14,11 @@ SDL_Surface *genCaveLevel(Window *window, Tilemap *tilemap, Level *leveldata) {
 	SDL_Rect tileRect;
 
 	// Our canvas to blit tiles to.
-	SDL_Surface *level = SDL_CreateRGBSurface(0, levelx, levely, window->bpp, 0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
+	SDL_Surface *level = SDL_CreateRGBSurface(0, levelx, levely, 
+                                window->bpp, 0xff000000, 
+                                                0x00ff0000, 
+                                                0x0000ff00, 
+                                                0x000000ff);
 
 	// Just pick random tiles for now. 
 	for (i = 0; i < columns; i++) {
@@ -283,6 +287,24 @@ int getTileType(char *pattern, int value) {
 		// 3 7 .
 		log_info("Top right corner", NULL);
 		return TILE_TRCORN;
+	}
+        if (!strcmp(pattern, "110110000")) {
+		// Bottom right corner
+		//
+		// 1 4 .
+		// 2 5 .
+		// . . .
+		log_info("Bottom right corner", NULL);
+		return TILE_BRCORN;
+	}
+        if (!strcmp(pattern, "000110110")) {
+		// Bottom left corner
+		//
+		// . 4 7
+		// . 5 8
+		// . . .
+		log_info("Bottom left corner", NULL);
+		return TILE_BLCORN;
 	}
 
 
